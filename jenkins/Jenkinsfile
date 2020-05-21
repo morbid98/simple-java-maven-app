@@ -17,7 +17,7 @@ pipeline {
         }
       }
     stage('Push artifact to Nexus'){
-      when { not { expression { return env.BRANCH_NAME.startsWith('PR') } } }
+      when { not { expression { return env.GIT_BRANCH.startsWith('PR') } } }
       steps{      
         nexusArtifactUploader artifacts: [
         [artifactId: 'my-app',
