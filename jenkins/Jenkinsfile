@@ -17,7 +17,8 @@ pipeline {
         }
       }
     stage('Push artifact to Nexus'){
-      nexusArtifactUploader artifacts: [
+      when { not { expression { return env.BRANCH_NAME.startsWith('PR') } } }
+      steps{      nexusArtifactUploader artifacts: [
         [artifactId: 'my-app',
           classifier: 'debug',
           file: 'target/my-app-1.0-SNAPSHOT.jar',
@@ -30,6 +31,7 @@ pipeline {
         protocol: 'http', 
         repository: 'MyCoolestRepo',
         version: '3.23'
+        }
       }
     }
     post {
