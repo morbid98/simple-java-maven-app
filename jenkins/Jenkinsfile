@@ -14,20 +14,22 @@ pipeline {
     stage('Test') { 
       steps {
         sh 'mvn test' 
-        nexusArtifactUploader artifacts: [
-            [artifactId: 'my-app',
-             classifier: 'debug',
-             file: 'target/my-app-1.0-SNAPSHOT.jar',
-             type: 'jar']
-          ], 
-          credentialsId: 'nexus_creds', 
-          groupId: '228', 
-          nexusUrl: 'nexus:8081',
-          nexusVersion: 'nexus3', 
-          protocol: 'http', 
-          repository: 'MyCoolestRepo',
-          version: '3.23'
         }
+      }
+    stage('Push artifact to Nexus'){
+      nexusArtifactUploader artifacts: [
+        [artifactId: 'my-app',
+          classifier: 'debug',
+          file: 'target/my-app-1.0-SNAPSHOT.jar',
+          type: 'jar']
+        ], 
+        credentialsId: 'nexus_creds', 
+        groupId: '228', 
+        nexusUrl: 'nexus:8081',
+        nexusVersion: 'nexus3', 
+        protocol: 'http', 
+        repository: 'MyCoolestRepo',
+        version: '3.23'
       }
     }
     post {
