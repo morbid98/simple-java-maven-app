@@ -18,7 +18,8 @@ pipeline {
       }
     stage('Push artifact to Nexus'){
       when { not { expression { return env.BRANCH_NAME.startsWith('PR') } } }
-      steps{      nexusArtifactUploader artifacts: [
+      steps{      
+        nexusArtifactUploader artifacts: [
         [artifactId: 'my-app',
           classifier: 'debug',
           file: 'target/my-app-1.0-SNAPSHOT.jar',
